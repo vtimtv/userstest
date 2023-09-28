@@ -1,0 +1,24 @@
+FROM php:8.1-fpm-alpine
+
+WORKDIR  /var/www
+
+RUN apk update && apk add \
+    build-base \
+    libzip-dev \
+    libxslt-dev \
+    vim
+
+RUN docker-php-ext-install zip xsl
+
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+RUN addgroup -g 1000 -S www && \
+    adduser -u 1000 -S www -G www
+
+USER www
+
+COPY --chown=www:www . /var
+#COPY . /var
+RUN cd /var/www && composer install #--prefer-dist && composer dump-autoload
+EXPOSE 9000

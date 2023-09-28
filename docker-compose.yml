@@ -1,0 +1,39 @@
+version: "4"
+
+services:
+  testusers:
+    build:
+      context: .
+      dockerfile: DockerFile
+    networks:
+      - testusers_network
+    image: testusers
+    container_name: testusers
+    restart: unless-stopped
+    volumes:
+      - ./www:/var/www
+
+  testusers_webserver:
+    build:
+      context: .
+      dockerfile: DockerFile_Nginx
+    networks:
+      - testusers_network
+    image: nginx
+    container_name: testusers_webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www
+      - ./config/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - testusers
+
+volumes:
+  dbdata:
+    driver: local
+
+networks:
+  testusers_network:
+    driver: bridge
