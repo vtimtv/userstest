@@ -20,14 +20,17 @@ switch($method){
         }
         if(!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
             echo json_encode(['errors'=>['email'=> 'Wrong email!']]);
+            logmessage('Wrong email!', $method, $user['email']);
             exit();
         }
         if(user_exist($user['email'])){
-            echo json_encode(['errors'=>['email'=> 'User exists!']]);
-            exit();
+            echo json_encode(['errors'=>['email'=> 'User already exists!']]);
+            logmessage('User already exists!', $method, $user['email']);
+             exit();
         }
         if($user['password'] != $_REQUEST['confirm_password']){
             echo json_encode(['errors'=>['password'=> 'Passwords don\'ot match']]);
+            logmessage('Passwords don\'ot match', $method, $user['email']);
             exit();
         }
         $users[$user['email']] = $user;

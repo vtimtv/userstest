@@ -41,3 +41,12 @@ function user_exist($email)
     global $users;
     return array_key_exists($email, $users);
 }
+
+function logmessage($message, $methhd, $email)
+{
+    $file_name = './logs/' . date('Y-m-d') . '.log';
+    $log = fopen($file_name, 'a');
+    $record = sprintf("%s %s %s %s\r\n", date('Y-m-d H:i:s'), $methhd, $email, $message);
+    fwrite($log, $record);
+    fclose($log);
+}
