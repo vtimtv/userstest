@@ -26,7 +26,7 @@ window.addEventListener('load', function () {
                     handleFormErrors($('#staticBackdrop').find('form'), res.data);
                     if(!res.data.errors) {
                         myModal.hide();
-                        fillusers();
+                        fillusers(res);
                     }
                 }
             ).catch((error) => {
@@ -40,10 +40,10 @@ window.addEventListener('load', function () {
     });
     axios.get('./list').then(function(res){
             console.log(res);
-            fillusers();
+            fillusers(res);
         }
     );
-    function fillusers(){
+    function fillusers(res){
         var tbl = $('#userstable');
         tbl.empty();
         if(res && res.data){
