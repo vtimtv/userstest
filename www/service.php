@@ -2,7 +2,7 @@
 include ('../includes/helpers.php');
 $users_path = './data/users.csv';
 $users = load_users();
-$allow_methods = ['list', 'create', 'update'];
+$allow_methods = ['list', 'create'];
 $method = $_GET['method'];
 $fields = ['fname', 'lname', 'email', 'password'];
 if(!in_array($method, $allow_methods)){
